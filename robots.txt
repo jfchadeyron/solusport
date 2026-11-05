@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jfchadeyron.github.io/solusport/sitemap.xml
