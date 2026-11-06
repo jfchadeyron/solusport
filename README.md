@@ -1,21 +1,21 @@
 # SoluSport
 
-Site vitrine de lancement de SoluSport, projet d’entreprise destiné aux associations sportives.
+[Site public sur GitHub Pages](https://jfchadeyron.github.io/solusport/)
 
-**Site : https://jfchadeyron.github.io/solusport/**
+Site de présentation de SoluSport, projet d’entreprise en cours de création à Varetz pour les associations sportives.
 
-## Contenu
+| Offre | Périmètre |
+| --- | --- |
+| PresenSport | Appel en ligne ou hors ligne, motifs d’absence, statistiques et uniformes |
+| GestionSport | Adhésions, cotisations, inscriptions, démarches fédérales, agenda, sondages et relances |
+| NotaSport | Juges, notation, programme en direct, affichages, votes et résultats |
+| EquipSport | Tenues personnalisées et équipements sportifs sur mesure |
 
-- Accueil : positionnement, exploration des cinq solutions, approche, WearSport, étapes, FAQ et contact.
-- Pages PresenSport, NotaSport, CommSport, WearSport et ManageSport.
-- Présentation du projet, mentions légales adaptées à une entreprise en cours de création et confidentialité.
-- Page 404, favicon, métadonnées de partage, sitemap et robots.txt.
+L’accueil compare les quatre offres. Chaque page détaille les usages, présente un exemple et prépare une prise de contact avec la solution présélectionnée. Les anciennes pages de CommSport et de ManageSport redirigent vers GestionSport. L’ancienne page de WearSport redirige vers EquipSport.
 
-PresenSport et NotaSport sont les nouveaux noms des produits PresenCheer et NotaCheer. Les aperçus d’interfaces sont illustratifs et comportent des données fictives. Les photographies sont des créations IA, pas des clients ou des références.
+## Maintenance
 
-## Modifier le site
-
-Le site publié est statique et ne nécessite aucune dépendance d’exécution. Node.js 22 ou supérieur suffit pour les outils de développement.
+Node.js 22 ou supérieur suffit pour générer et vérifier le site.
 
 ```sh
 npm run build
@@ -23,28 +23,13 @@ npm test
 npm run dev
 ```
 
-Prévisualisation : `http://127.0.0.1:4173/solusport/`.
+Le serveur de prévisualisation écoute sur `http://127.0.0.1:4173/solusport/`. GitHub Pages publie les fichiers statiques à la racine de la branche `main`. Régénérer et versionner le HTML après une modification des sources.
 
-- `src/products.mjs` : contenu des cinq produits.
-- `scripts/build.mjs` : gabarits et contenus des autres pages.
-- `assets/style.css` : identité graphique et responsive.
-- `assets/site.js` : navigation mobile, onglets accessibles et préparation des e-mails.
-- `assets/` : images, favicon et police auto-hébergée.
+- `src/products.mjs` contient les offres et la correspondance des anciennes adresses.
+- `src/home.mjs`, `src/detail.mjs` et `src/layout.mjs` définissent les pages et les éléments communs.
+- `src/about.html`, `src/legal.html` et `src/privacy.html` contiennent les pages d’information.
+- `assets/style.css` et `assets/site.js` gèrent la présentation, le menu et la préparation d’e-mail.
 
-Après modification des sources, exécuter `npm run build` puis `npm test` et versionner aussi les fichiers HTML générés. GitHub Pages publie la racine de `main`. Le fichier `.nojekyll` évite une transformation par Jekyll.
+Le formulaire prépare un brouillon à destination de **contact@solusport.fr**. L’envoi se fait depuis la messagerie du visiteur. À l’immatriculation, actualiser les mentions légales, la présentation du projet, la FAQ et le pied de page avec les références définitives de la société.
 
-## Contact
-
-Le formulaire prépare un e-mail destiné à **contact@solusport.fr**. L’utilisateur ouvre ensuite sa messagerie ou copie le message ; aucun envoi automatique, stockage serveur ou prestataire de formulaire n’est ajouté. La disponibilité de la boîte e-mail et la réception réelle sont à gérer par le propriétaire du domaine.
-
-## Identité et illustrations
-
-Voir [IDENTITE-VISUELLE.md](IDENTITE-VISUELLE.md) pour la palette, la typographie, la direction photographique et les prompts des visuels créés avec le générateur d’images intégré.
-
-Le logo source fourni est conservé dans `assets/solusport-original.png` et cadré à l’affichage en CSS, sans retouche du fichier d’origine. Manrope est distribuée sous licence SIL Open Font License, incluse dans `assets/manrope-LICENSE.txt`.
-
-## À l’immatriculation
-
-Mettre à jour le statut dans les mentions légales, le pied de page, la FAQ et la page de présentation. Compléter les références SIREN/RCS, TVA le cas échéant et les coordonnées légales définitives. Réviser les modalités de confidentialité si des comptes, mesures d’audience, formulaires serveur ou services payants sont ajoutés. Aucun paiement ni engagement contractuel n’est proposé dans cette version de lancement.
-
-Références de rédaction : [Service Public — mentions légales](https://entreprendre.service-public.gouv.fr/vosdroits/F37351?lang=fr), [CNIL — conservation des données](https://www.cnil.fr/fr/passer-laction/les-durees-de-conservation-des-donnees), [GitHub — confidentialité](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).
+Les logos officiels, la palette et les illustrations sont décrits dans la [charte visuelle](IDENTITE-VISUELLE.md).

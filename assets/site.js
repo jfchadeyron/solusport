@@ -1,5 +1,7 @@
 'use strict';
 
+document.documentElement.classList.add('js');
+
 const menuButton = document.querySelector('.menu-toggle');
 const navigation = document.querySelector('#navigation');
 function closeMenu() {
@@ -26,32 +28,16 @@ document.addEventListener('click', event => {
 });
 matchMedia('(min-width: 761px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
 
-const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
-function activateTab(tab, focus = false) {
-  tabs.forEach(item => {
-    const selected = item === tab;
-    item.setAttribute('aria-selected', String(selected));
-    item.tabIndex = selected ? 0 : -1;
-    document.getElementById(item.getAttribute('aria-controls')).hidden = !selected;
-  });
-  if (focus) tab.focus();
-}
-tabs.forEach((tab, index) => {
-  tab.addEventListener('click', () => activateTab(tab));
-  tab.addEventListener('keydown', event => {
-    let next;
-    if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
-    if (event.key === 'ArrowLeft') next = (index - 1 + tabs.length) % tabs.length;
-    if (event.key === 'Home') next = 0;
-    if (event.key === 'End') next = tabs.length - 1;
-    if (next !== undefined) { event.preventDefault(); activateTab(tabs[next], true); }
-  });
-});
-
 const form = document.querySelector('#contact-form');
 if (form) {
   form.querySelector('button[type="submit"]').disabled = false;
-  const selected = new URLSearchParams(location.search).get('solution');
+  const requested = new URLSearchParams(location.search).get('solution');
+  const formerNames = new Map([
+    ['CommSport', 'GestionSport'],
+    ['ManageSport', 'GestionSport'],
+    ['WearSport', 'EquipSport']
+  ]);
+  const selected = formerNames.get(requested) || requested;
   const select = form.elements.namedItem('solution');
   if (selected && Array.from(select.options).some(option => option.value === selected)) select.value = selected;
   let preparedMessage = '';

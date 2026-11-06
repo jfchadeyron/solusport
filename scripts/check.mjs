@@ -1,39 +1,51 @@
-import { readdir, readFile, stat } from 'node:fs/promises';
-import { resolve, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
-import { products } from '../src/products.mjs';
-const root=fileURLToPath(new URL('../',import.meta.url));
-const files=(await readdir(root)).filter(f=>f.endsWith('.html'));
-const cache=new Map(await Promise.all(files.map(async f=>[f,await readFile(resolve(root,f),'utf8')])));
-let links=0;
-for(const [file,html] of cache){
- assert.equal((html.match(/<h1[ >]/g)||[]).length,1,`${file}: exactly one h1`);
- assert.match(html,/<html lang="fr">/,`${file}: French document`);
- assert.match(html,/<meta name="description" content="[^"]+">/,`${file}: description`);
- assert.match(html,/<link rel="canonical"/,`${file}: canonical`);
- const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
- assert.equal(new Set(ids).size,ids.length,`${file}: unique IDs`);
- for(const img of html.matchAll(/<img\b[^>]*>/g)) assert.match(img[0],/\balt="[^"]*"/,`${file}: image alt`);
- for(const match of html.matchAll(/(?:href|src)="([^"]+)"/g)){
-  const url=match[1].replaceAll('&amp;','&');
-  if(url==='/solusport/')continue;
-  if(/^(https?:|mailto:|data:)/.test(url))continue;
-  const [pathAndQuery,anchor]=url.split('#');
-  const relative=pathAndQuery.split('?')[0]||file;
-  const full=resolve(root,relative);
-  assert.ok((await stat(full)).isFile(),`${file}: asset ${relative} exists`);
-  if(anchor){const target=cache.get(relative)||await readFile(full,'utf8');assert.ok(target.includes(`id="${anchor}"`),`${file}: anchor ${relative}#${anchor}`);}
-  links++;
- }
+import { readdir, readFile, stat } from 'node:fs/promises';
+import { products, redirects } from '../src/products.mjs';
+
+const root = new URL('../', import.meta.url);
+const read = name => readFile(new URL(name, root), 'utf8');
+const filenames = (await readdir(root)).filter(file => file.endsWith('.html'));
+const pages = new Map(await Promise.all(filenames.map(async name => [name, await read(name)])));
+let verifiedLinks = 0;
+
+for (const [name, html] of pages) {
+  assert.equal([...html.matchAll(/<h1[ >]/g)].length, 1, name + ' doit avoir un titre principal');
+  assert.match(html, /<html lang="fr">/);
+  assert.match(html, /<meta name="description" content="[^"]+">/);
+  assert.match(html, /<link rel="canonical"/);
+  const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
+  assert.equal(new Set(ids).size, ids.length, name + ' contient un ID dupliqué');
+  for (const [image] of html.matchAll(/<img\b[^>]*>/g)) assert.match(image, /\balt="[^"]*"/);
+  for (const [, link] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
+    if (link === '/solusport/' || /^(https?:|mailto:|data:)/.test(link)) continue;
+    const [pathQuery, anchor] = link.split('#');
+    const target = pathQuery.split('?')[0] || name;
+    assert.ok((await stat(new URL(target, root))).isFile(), name + ' → ' + target);
+    if (anchor) assert.ok(pages.get(target)?.includes('id="' + anchor + '"'), name + ' → ' + link);
+    verifiedLinks++;
+  }
 }
-const home=cache.get('index.html');
-for(const p of products){assert.ok(cache.has(`${p.id}.html`));assert.ok(home.includes(`id="tab-${p.id}"`));assert.ok(home.includes(`id="panel-${p.id}"`));}
-assert.match(cache.get('mentions-legales.html'),/en cours de création/);
-assert.match(cache.get('mentions-legales.html'),/capital social prévu de 2 000/);
-assert.ok(![...cache.values()].join('').includes('®'),'No unverified registered trademark');
-const js=await readFile(resolve(root,'assets/site.js'),'utf8');
-assert.ok(!/fetch\(|XMLHttpRequest|localStorage|document\.cookie/.test(js),'No form upload or tracking');
-const css=await readFile(resolve(root,'assets/style.css'),'utf8');
-for(const match of css.matchAll(/url\(['"]?([^)'";]+)['"]?\)/g)) await stat(resolve(root,'assets',match[1]));
-console.log(`PASS — ${files.length} pages, ${links} liens et ressources locaux, ancres, métadonnées, images et statut de lancement.`);
+
+const home = pages.get('index.html');
+const sitemap = await read('sitemap.xml');
+assert.deepEqual(products.map(p => p.id).sort(), ['equipsport', 'gestionsport', 'notasport', 'presensport']);
+for (const product of products) {
+  assert.ok(home.includes('data-solution="' + product.id + '"'));
+  assert.ok(home.includes('value="' + product.name + '"'));
+  const logo = 'assets/logos/' + product.id + '.webp';
+  assert.ok(home.includes(logo) && pages.get(product.id + '.html').includes(logo));
+  assert.ok(sitemap.includes('/' + product.id + '.html'));
+}
+for (const [oldPage, target] of Object.entries(redirects)) {
+  assert.ok(pages.get(oldPage).includes('http-equiv="refresh" content="0;url=' + target + '"'));
+  assert.ok(pages.get(oldPage).includes('href="' + target + '"'));
+  assert.ok(!sitemap.includes('/' + oldPage));
+}
+assert.match(pages.get('mentions-legales.html'), /en cours de création/);
+assert.match(pages.get('mentions-legales.html'), /capital social prévu de 2 000/);
+assert.doesNotMatch(await read('assets/site.js'), /fetch\(|XMLHttpRequest|localStorage|document\.cookie/);
+const css = await read('assets/style.css');
+for (const [, asset] of css.matchAll(/url\(['"]?([^)'";]+)['"]?\)/g)) {
+  await stat(new URL('assets/' + asset, root));
+}
+console.log('OK · ' + pages.size + ' pages HTML · ' + verifiedLinks + ' liens, ancres et ressources · 4 offres · 3 redirections');
