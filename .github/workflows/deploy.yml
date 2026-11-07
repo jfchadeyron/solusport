@@ -34,7 +34,7 @@ jobs:
           username: ${{ secrets.O2SWITCH_FTP_USERNAME }}
           password: ${{ secrets.O2SWITCH_FTP_PASSWORD }}
           protocol: ftps
-          server-dir: ${{ vars.O2SWITCH_FTP_DIR || './' }}
+          server-dir: ${{ vars.O2SWITCH_FTP_DIR || './solucheer.com/' }}
           exclude: |
             **/.git*
             **/.git*/**

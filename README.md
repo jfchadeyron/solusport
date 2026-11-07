@@ -40,10 +40,10 @@ Secrets GitHub à créer (Settings → Secrets and variables → Actions) :
 
 | Secret | Valeur |
 | --- | --- |
-| `O2SWITCH_FTP_SERVER` | Serveur FTP indiqué dans cPanel (Comptes FTP) |
-| `O2SWITCH_FTP_USERNAME` | Compte FTP limité au dossier de solucheer.com |
+| `O2SWITCH_FTP_SERVER` | `ftp.jibu4741.odns.fr` |
+| `O2SWITCH_FTP_USERNAME` | Compte FTP o2switch |
 | `O2SWITCH_FTP_PASSWORD` | Mot de passe de ce compte |
 
-Si le compte FTP n’est pas limité au dossier du site, créer la variable `O2SWITCH_FTP_DIR` (par exemple `./solucheer.com/`). `.htaccess` force HTTPS, redirige `www` et les anciennes pages, et sert `404.html`.
+Les fichiers sont envoyés dans `./solucheer.com/`, la racine du domaine dans le compte principal. Avec un compte FTP limité au dossier du site, créer la variable `O2SWITCH_FTP_DIR` avec la valeur `./`. `.htaccess` force HTTPS, redirige `www` et les anciennes pages, et sert `404.html`.
 
 Les logos officiels, la palette et les illustrations sont décrits dans la [charte visuelle](IDENTITE-VISUELLE.md).
