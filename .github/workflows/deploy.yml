@@ -31,7 +31,8 @@ jobs:
 
       - name: Signaler l’absence d’accès FTP
         if: env.FTP_SERVER == ''
-        run: echo "::notice::Secrets O2SWITCH_FTP_* absents : site vérifié mais non envoyé."
+        run: |
+          echo "::notice::Secrets O2SWITCH_FTP_* absents, site vérifié mais non envoyé."
 
       - name: Envoyer le site sur o2switch (FTPS)
         if: env.FTP_SERVER != ''
