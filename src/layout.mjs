@@ -1,6 +1,6 @@
 import { products } from './products.mjs';
 
-const base = 'https://jfchadeyron.github.io/solusport/';
+const base = 'https://solucheer.com/';
 const arrow = '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>';
 const brand = '<img class="brand" src="assets/logos/solusport.webp" width="640" height="250" alt="SoluSport, votre sport, nos solutions">';
 
@@ -70,8 +70,9 @@ function footer() {
         <a href="index.html#questions">Questions fréquentes</a>
         <a href="index.html#contact">Contact</a>
       </div>
-      <div><strong>Nous écrire</strong>
-        <a href="mailto:contact@solusport.fr">contact@solusport.fr</a>
+      <div><strong>Nous contacter</strong>
+        <a href="mailto:contact@solusport.com">contact@solusport.com</a>
+        <a href="tel:+33756822112">07 56 82 21 12</a>
         <address>11 allée de Biscaye<br>19240 Varetz, France</address>
       </div>
     </div>
@@ -89,7 +90,7 @@ function documentPage({file, title, description, content, image = 'entrainement'
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-${notFound ? '<base href="/solusport/"><meta name="robots" content="noindex">' : ''}
+${notFound ? '<base href="/"><meta name="robots" content="noindex">' : ''}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#082945">
 <title>${escape(title)}</title>

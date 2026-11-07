@@ -1,0 +1,47 @@
+name: Déploiement sur o2switch
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploiement-o2switch
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Générer et vérifier le site
+        run: |
+          npm run build
+          npm test
+
+      - name: Vérifier que le HTML versionné est à jour
+        run: git diff --exit-code
+
+      - name: Envoyer le site sur o2switch (FTPS)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.O2SWITCH_FTP_SERVER }}
+          username: ${{ secrets.O2SWITCH_FTP_USERNAME }}
+          password: ${{ secrets.O2SWITCH_FTP_PASSWORD }}
+          protocol: ftps
+          server-dir: ${{ vars.O2SWITCH_FTP_DIR || './' }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .github/**
+            src/**
+            scripts/**
+            *.md
+            package.json
+            .nojekyll

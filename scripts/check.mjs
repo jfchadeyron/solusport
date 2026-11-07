@@ -17,7 +17,7 @@ for (const [name, html] of pages) {
   assert.equal(new Set(ids).size, ids.length, name + ' contient un ID dupliqué');
   for (const [image] of html.matchAll(/<img\b[^>]*>/g)) assert.match(image, /\balt="[^"]*"/);
   for (const [, link] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
-    if (link === '/solusport/' || /^(https?:|mailto:|data:)/.test(link)) continue;
+    if (link === '/' || /^(https?:|mailto:|tel:|data:)/.test(link)) continue;
     const [pathQuery, anchor] = link.split('#');
     const target = pathQuery.split('?')[0] || name;
     assert.ok((await stat(new URL(target, root))).isFile(), name + ' → ' + target);
@@ -43,7 +43,20 @@ for (const [oldPage, target] of Object.entries(redirects)) {
 }
 assert.match(pages.get('mentions-legales.html'), /en cours de création/);
 assert.match(pages.get('mentions-legales.html'), /capital social prévu de 2 000/);
-assert.doesNotMatch(await read('assets/site.js'), /fetch\(|XMLHttpRequest|localStorage|document\.cookie/);
+const script = await read('assets/site.js');
+assert.doesNotMatch(script, /XMLHttpRequest|localStorage|document\.cookie/);
+for (const [call] of script.matchAll(/fetch\([^,)]*/g)) assert.equal(call, "fetch('contact.php'", 'site.js ne doit contacter que contact.php');
+for (const [name, html] of pages) {
+  assert.doesNotMatch(html, /PresenCheer|NotaCheer/, name + ' mentionne un ancien nom');
+  assert.doesNotMatch(html, /contact@solusport\.fr|github\.io/, name + ' contient une ancienne adresse');
+}
+assert.match(home, /action="contact\.php" method="post"/);
+assert.match(home, /href="tel:\+33756822112"/);
+const mailer = await read('contact.php');
+assert.match(mailer, /const DESTINATAIRE = 'contact@solusport\.com';/);
+for (const product of products) assert.ok(mailer.includes("'" + product.name + "'"), 'contact.php doit accepter ' + product.name);
+assert.match(await read('.htaccess'), /ErrorDocument 404 \/404\.html/);
+assert.match(await read('robots.txt'), /https:\/\/solucheer\.com\/sitemap\.xml/);
 const css = await read('assets/style.css');
 for (const [, asset] of css.matchAll(/url\(['"]?([^)'";]+)['"]?\)/g)) {
   await stat(new URL('assets/' + asset, root));

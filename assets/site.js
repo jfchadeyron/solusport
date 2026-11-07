@@ -41,27 +41,61 @@ if (form) {
   const select = form.elements.namedItem('solution');
   if (selected && Array.from(select.options).some(option => option.value === selected)) select.value = selected;
   let preparedMessage = '';
-  form.addEventListener('submit', event => {
-    event.preventDefault();
-    if (!form.reportValidity()) return;
-    const values = new FormData(form);
+  const submitButton = form.querySelector('button[type="submit"]');
+  const status = document.querySelector('#form-status');
+  const result = document.querySelector('#contact-result');
+  const reveal = element => {
+    element.hidden = false;
+    element.focus({ preventScroll: true });
+    element.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'nearest' });
+  };
+  const showStatus = (text, isError = false) => {
+    status.textContent = text;
+    status.classList.toggle('is-error', isError);
+    reveal(status);
+  };
+  // Si l’envoi automatique échoue, le visiteur peut encore envoyer le message depuis sa messagerie.
+  const prepareDraft = values => {
     const value = key => String(values.get(key) || '').trim();
     const subject = `Projet ${value('solution')} — ${value('club')}`;
     preparedMessage = `Bonjour SoluSport,\n\nJe souhaite échanger avec vous au sujet de mon association.\n\nNom : ${value('name')}\nAssociation : ${value('club')}\nE-mail : ${value('email')}\nSolution : ${value('solution')}\n\nMon projet :\n${value('message')}\n\nBien cordialement,\n${value('name')}`;
-    document.querySelector('#email-draft').href = `mailto:contact@solusport.fr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(preparedMessage)}`;
+    document.querySelector('#email-draft').href = `mailto:contact@solusport.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(preparedMessage)}`;
     document.querySelector('#message-preview').value = preparedMessage;
     document.querySelector('#copy-status').textContent = '';
-    const result = document.querySelector('#contact-result');
-    result.hidden = false;
-    result.focus({ preventScroll: true });
-    result.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'nearest' });
+    reveal(result);
+  };
+  form.addEventListener('submit', async event => {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+    const values = new FormData(form);
+    status.hidden = true;
+    result.hidden = true;
+    submitButton.disabled = true;
+    submitButton.setAttribute('aria-busy', 'true');
+    try {
+      const response = await fetch('contact.php', { method: 'POST', body: values, headers: { Accept: 'application/json' } });
+      const answer = await response.json().catch(() => null);
+      if (response.ok && answer?.ok) {
+        form.reset();
+        showStatus('Merci ! Votre message a bien été envoyé à SoluSport. Une réponse vous sera apportée à l’adresse indiquée.');
+      } else if (response.status === 400 && answer?.erreur) {
+        showStatus(answer.erreur, true);
+      } else {
+        prepareDraft(values);
+      }
+    } catch {
+      prepareDraft(values);
+    } finally {
+      submitButton.disabled = false;
+      submitButton.removeAttribute('aria-busy');
+    }
   });
-  form.addEventListener('input', () => { document.querySelector('#contact-result').hidden = true; });
+  form.addEventListener('input', () => { result.hidden = true; status.hidden = true; });
   document.querySelector('#copy-message').addEventListener('click', async () => {
     const status = document.querySelector('#copy-status');
     try {
       await navigator.clipboard.writeText(preparedMessage);
-      status.textContent = 'Message copié. Collez-le dans votre messagerie et envoyez-le à contact@solusport.fr.';
+      status.textContent = 'Message copié. Collez-le dans votre messagerie et envoyez-le à contact@solusport.com.';
     } catch {
       const preview = document.querySelector('#message-preview');
       preview.focus(); preview.select();

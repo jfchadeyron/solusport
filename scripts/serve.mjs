@@ -7,7 +7,7 @@ const mime = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8
 const port = Number(process.env.PORT || 4173);
 createServer(async(req,res)=>{
   try {
-    let requested=decodeURIComponent(new URL(req.url,'http://localhost').pathname).replace(/^\/solusport(?=\/|$)/,'') || '/';
+    let requested=decodeURIComponent(new URL(req.url,'http://localhost').pathname) || '/';
     if(requested.endsWith('/')) requested+='index.html';
     const location=path.resolve(root,'.'+requested);
     const relative=path.relative(root,location);
@@ -16,4 +16,4 @@ createServer(async(req,res)=>{
     res.writeHead(200,{'Content-Type':mime[path.extname(location)] || 'application/octet-stream','Cache-Control':'no-cache'});
     res.end(await readFile(location));
   }catch{res.writeHead(404,{'Content-Type':'text/html; charset=utf-8'});res.end(await readFile(path.join(root,'404.html')));}
-}).listen(port,'127.0.0.1',()=>console.log(`SoluSport preview: http://127.0.0.1:${port}/solusport/`));
+}).listen(port,'127.0.0.1',()=>console.log(`SoluSport preview: http://127.0.0.1:${port}/`));

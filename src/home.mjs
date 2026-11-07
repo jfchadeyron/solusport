@@ -25,10 +25,13 @@ function contact() {
         <p class="kicker">Contact</p>
         <h2 id="contact-title">Parlons de votre club.</h2>
         <p>Décrivez votre discipline, votre organisation et ce que vous souhaitez mettre en place. Un premier échange permet de préciser le projet et son calendrier.</p>
-        <a class="contact-email" href="mailto:contact@solusport.fr">contact@solusport.fr ${arrow}</a>
+        <div class="contact-links">
+          <a class="contact-email" href="mailto:contact@solusport.com">contact@solusport.com ${arrow}</a>
+          <a class="contact-email" href="tel:+33756822112">07 56 82 21 12 ${arrow}</a>
+        </div>
         <address>11 allée de Biscaye<br>19240 Varetz, France</address>
       </div>
-      <form class="contact-form" id="contact-form">
+      <form class="contact-form" id="contact-form" action="contact.php" method="post">
         <div class="field-grid">
           <label for="name">Votre nom <span>*</span>
             <input id="name" name="name" autocomplete="name" maxlength="100" required>
@@ -51,12 +54,15 @@ function contact() {
           <textarea id="message" name="message" rows="4" maxlength="3000" required
             placeholder="De quoi votre association a-t-elle besoin ?"></textarea>
         </label>
-        <p class="form-note">* Champs obligatoires. Vous pourrez relire le message, puis l’envoyer depuis votre messagerie. <a href="confidentialite.html">Confidentialité</a></p>
-        <noscript><p>Écrivez directement à <a href="mailto:contact@solusport.fr">contact@solusport.fr</a>.</p></noscript>
-        <button class="button" type="submit" disabled>Préparer mon e-mail ${arrow}</button>
+        <p class="trap" aria-hidden="true"><label for="website">Ne pas remplir ce champ
+          <input id="website" name="website" tabindex="-1" autocomplete="off"></label></p>
+        <p class="form-note">* Champs obligatoires. Votre message est envoyé directement à SoluSport. <a href="confidentialite.html">Confidentialité</a></p>
+        <noscript><p>Écrivez directement à <a href="mailto:contact@solusport.com">contact@solusport.com</a> ou appelez le <a href="tel:+33756822112">07 56 82 21 12</a>.</p></noscript>
+        <button class="button" type="submit">Envoyer mon message ${arrow}</button>
+        <p id="form-status" class="form-status" role="status" tabindex="-1" hidden></p>
         <div id="contact-result" hidden tabindex="-1">
-          <p role="status">Votre message est prêt. Ouvrez votre messagerie pour l’envoyer à contact@solusport.fr.</p>
-          <a class="button" id="email-draft" href="mailto:contact@solusport.fr">Ouvrir ma messagerie ${arrow}</a>
+          <p role="status">L’envoi automatique n’a pas abouti. Votre message est prêt : ouvrez votre messagerie pour l’envoyer à contact@solusport.com, ou appelez le 07 56 82 21 12.</p>
+          <a class="button" id="email-draft" href="mailto:contact@solusport.com">Ouvrir ma messagerie ${arrow}</a>
           <button class="copy" id="copy-message" type="button">Copier le message</button>
           <textarea id="message-preview" readonly rows="6" aria-label="Message préparé"></textarea>
           <p id="copy-status" role="status"></p>

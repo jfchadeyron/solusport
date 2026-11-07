@@ -20,8 +20,7 @@ export const products = [
     ],
     faq: [
       ['Peut-on faire l’appel sans réseau au gymnase ?', 'Oui. PresenSport permet de faire l’appel en ligne ou hors ligne. Précisez le matériel utilisé par vos entraîneurs pour préparer la mise en place.'],
-      ['Quelle solution choisir pour les tenues ?', 'PresenSport sert à suivre les uniformes déjà confiés aux adhérents. Pour créer de nouvelles tenues ou étudier un équipement sur mesure, adressez votre projet à EquipSport.'],
-      ['Que devient PresenCheer ?', 'PresenSport est le nouveau nom de PresenCheer. Il s’agit du même produit de suivi des présences et des uniformes.']
+      ['Quelle solution choisir pour les tenues ?', 'PresenSport sert à suivre les uniformes déjà confiés aux adhérents. Pour créer de nouvelles tenues ou étudier un équipement sur mesure, adressez votre projet à EquipSport.']
     ],
     contact: 'Indiquez le nombre de groupes, la façon dont vous faites l’appel et vos besoins de suivi des uniformes.'
   },
@@ -73,8 +72,7 @@ export const products = [
     ],
     faq: [
       ['Comment vérifier la compatibilité avec notre règlement ?', 'Partagez votre grille de notation, le nombre de juges et les règles de classement. Ces éléments permettent d’étudier la configuration adaptée à votre compétition.'],
-      ['Quels supports prévoir pour les affichages ?', 'Téléviseurs, vidéoprojecteurs, programme en ligne et habillages de diffusion correspondent à différents publics. Indiquez les écrans et le matériel de régie dont vous disposez.'],
-      ['Que devient NotaCheer ?', 'NotaSport est le nouveau nom de NotaCheer. Le produit conserve ses fonctions de notation et d’organisation de compétitions.']
+      ['Quels supports prévoir pour les affichages ?', 'Téléviseurs, vidéoprojecteurs, programme en ligne et habillages de diffusion correspondent à différents publics. Indiquez les écrans et le matériel de régie dont vous disposez.']
     ],
     contact: 'Indiquez la discipline, la date de la compétition, le format de notation et les affichages souhaités.'
   },
