@@ -1,6 +1,6 @@
 # SoluSport
 
-[Site public : solucheer.com](https://solucheer.com/)
+[Site public : solusport.com](https://solusport.com/)
 
 Site de présentation de SoluSport, projet d’entreprise en cours de création à Varetz pour les associations sportives.
 
@@ -41,9 +41,9 @@ Secrets GitHub à créer (Settings → Secrets and variables → Actions) :
 | Secret | Valeur |
 | --- | --- |
 | `O2SWITCH_FTP_SERVER` | `ftp.jibu4741.odns.fr` |
-| `O2SWITCH_FTP_USERNAME` | Compte FTP o2switch |
+| `O2SWITCH_FTP_USERNAME` | Compte FTP limité au dossier du site |
 | `O2SWITCH_FTP_PASSWORD` | Mot de passe de ce compte |
 
-Les fichiers sont envoyés dans `./solucheer.com/`, la racine du domaine dans le compte principal. Avec un compte FTP limité au dossier du site, créer la variable `O2SWITCH_FTP_DIR` avec la valeur `./`. `.htaccess` force HTTPS, redirige `www` et les anciennes pages, et sert `404.html`.
+Les fichiers sont envoyés à la racine du compte FTP, qui doit être limité au dossier de solusport.com. Pour un autre dossier, créer la variable `O2SWITCH_FTP_DIR` (par exemple `./public_html/`). `.htaccess` force HTTPS, redirige `www` et les anciennes pages, et sert `404.html`.
 
 Les logos officiels, la palette et les illustrations sont décrits dans la [charte visuelle](IDENTITE-VISUELLE.md).

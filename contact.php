@@ -108,7 +108,7 @@ if (count($envois) >= ENVOIS_PAR_HEURE) {
     repondre(429, false, 'Trop de messages envoyés depuis votre connexion. Réessayez dans une heure ou écrivez à ' . DESTINATAIRE . '.');
 }
 
-$site = preg_replace('/[^a-z0-9.\-:]/i', '', $_SERVER['HTTP_HOST'] ?? 'solucheer.com');
+$site = preg_replace('/[^a-z0-9.\-:]/i', '', $_SERVER['HTTP_HOST'] ?? 'solusport.com');
 $sujet = 'Projet ' . $solution . ' — ' . $club;
 $corps = "Nouveau message reçu depuis le formulaire de contact de {$site}.\n\n"
     . "Nom : {$nom}\n"

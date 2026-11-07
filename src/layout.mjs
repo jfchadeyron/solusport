@@ -1,6 +1,6 @@
 import { products } from './products.mjs';
 
-const base = 'https://solucheer.com/';
+const base = 'https://solusport.com/';
 const arrow = '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>';
 const brand = '<img class="brand" src="assets/logos/solusport.webp" width="640" height="250" alt="SoluSport, votre sport, nos solutions">';
 

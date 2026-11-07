@@ -48,7 +48,7 @@ assert.doesNotMatch(script, /XMLHttpRequest|localStorage|document\.cookie/);
 for (const [call] of script.matchAll(/fetch\([^,)]*/g)) assert.equal(call, "fetch('contact.php'", 'site.js ne doit contacter que contact.php');
 for (const [name, html] of pages) {
   assert.doesNotMatch(html, /PresenCheer|NotaCheer/, name + ' mentionne un ancien nom');
-  assert.doesNotMatch(html, /contact@solusport\.fr|github\.io/, name + ' contient une ancienne adresse');
+  assert.doesNotMatch(html, /contact@solusport\.fr|github\.io|solucheer/i, name + ' contient une ancienne adresse');
 }
 assert.match(home, /action="contact\.php" method="post"/);
 assert.match(home, /href="tel:\+33756822112"/);
@@ -56,7 +56,7 @@ const mailer = await read('contact.php');
 assert.match(mailer, /const DESTINATAIRE = 'contact@solusport\.com';/);
 for (const product of products) assert.ok(mailer.includes("'" + product.name + "'"), 'contact.php doit accepter ' + product.name);
 assert.match(await read('.htaccess'), /ErrorDocument 404 \/404\.html/);
-assert.match(await read('robots.txt'), /https:\/\/solucheer\.com\/sitemap\.xml/);
+assert.match(await read('robots.txt'), /https:\/\/solusport\.com\/sitemap\.xml/);
 const css = await read('assets/style.css');
 for (const [, asset] of css.matchAll(/url\(['"]?([^)'";]+)['"]?\)/g)) {
   await stat(new URL('assets/' + asset, root));
