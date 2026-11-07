@@ -12,6 +12,8 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      FTP_SERVER: ${{ secrets.O2SWITCH_FTP_SERVER }}
     steps:
       - uses: actions/checkout@v4
 
@@ -27,14 +29,19 @@ jobs:
       - name: Vérifier que le HTML versionné est à jour
         run: git diff --exit-code
 
+      - name: Signaler l’absence d’accès FTP
+        if: env.FTP_SERVER == ''
+        run: echo "::notice::Secrets O2SWITCH_FTP_* absents : site vérifié mais non envoyé."
+
       - name: Envoyer le site sur o2switch (FTPS)
+        if: env.FTP_SERVER != ''
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.O2SWITCH_FTP_SERVER }}
+          server: ${{ env.FTP_SERVER }}
           username: ${{ secrets.O2SWITCH_FTP_USERNAME }}
           password: ${{ secrets.O2SWITCH_FTP_PASSWORD }}
           protocol: ftps
-          server-dir: ${{ vars.O2SWITCH_FTP_DIR || './' }}
+          server-dir: ${{ vars.O2SWITCH_FTP_DIR || './public_html/' }}
           exclude: |
             **/.git*
             **/.git*/**

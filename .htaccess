@@ -7,8 +7,10 @@ ErrorDocument 404 /404.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
   # HTTPS obligatoire, sauf pour la validation du certificat (AutoSSL / Let’s Encrypt).
+  # o2switch peut terminer le TLS en amont : X-Forwarded-Proto évite une boucle.
   RewriteCond %{REQUEST_URI} !^/\.well-known/
-  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteCond %{HTTPS} !on
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
   # www.solusport.com redirige vers solusport.com.
   RewriteCond %{REQUEST_URI} !^/\.well-known/
