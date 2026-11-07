@@ -26,6 +26,11 @@ Redirect 301 /wearsport.html /equipsport.html
 # Fichiers cachés (dont l’état de synchronisation FTP) inaccessibles depuis le Web.
 RedirectMatch 404 "/\.(?!well-known/)"
 
+# Fichiers de travail du dépôt : jamais servis, même envoyés par erreur.
+RedirectMatch 404 "^/(src|scripts|node_modules)/"
+RedirectMatch 404 "\.(md|mjs)$"
+RedirectMatch 404 "^/package(-lock)?\.json$"
+
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
