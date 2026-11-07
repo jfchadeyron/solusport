@@ -74,7 +74,7 @@ function contact() {
 
 function homePage() {
   return `<section class="hero" aria-labelledby="hero-title">
-    <img class="hero-photo" src="assets/entrainement.webp" width="2000" height="740"
+    <img class="hero-photo" src="assets/entrainement.webp" srcset="assets/entrainement-800.webp 800w, assets/entrainement.webp 2000w" sizes="100vw" width="2000" height="740"
       alt="Une entraîneuse et deux sportifs au bord du terrain." fetchpriority="high">
     <div class="hero-shade" aria-hidden="true"></div>
     <div class="wrap hero-layout">
@@ -100,7 +100,7 @@ function homePage() {
   <section class="equipment-feature">
     <div class="wrap feature-layout">
       <figure class="equipment-image">
-        <img src="assets/equipement-sur-mesure.webp" width="1200" height="800" loading="lazy"
+        <img src="assets/equipement-sur-mesure.webp" srcset="assets/equipement-sur-mesure-800.webp 800w, assets/equipement-sur-mesure.webp 1200w" sizes="(max-width: 760px) 100vw, 50vw" width="1200" height="800" loading="lazy"
           alt="Concept de maillot, sac d’équipe et housse de transport coordonnés aux couleurs du club.">
         <figcaption>Exemple de personnalisation</figcaption>
       </figure>
@@ -125,4 +125,4 @@ function homePage() {
   ${contact()}`;
 }
 
-export { homePage };
+export { homePage, questions };

@@ -1,0 +1,28 @@
+# SoluSport
+
+> SoluSport réunit des logiciels et des équipements pour les associations sportives : appel et présences, gestion du club, organisation de compétitions, tenues et équipements sur mesure. Projet d’entreprise en cours de création à Varetz (Corrèze, France).
+
+## Solutions
+
+- [PresenSport](https://solusport.com/presensport.html) : présences et uniformes. Faites l’appel, notez les motifs d’absence et retrouvez les uniformes confiés aux sportifs. Pour : entraîneurs et responsables de groupes.
+- [GestionSport](https://solusport.com/gestionsport.html) : gestion et communication du club. Organisez les inscriptions et cotisations, partagez l’agenda et recueillez les réponses des familles. Pour : bureau, bénévoles et responsables d’équipe.
+- [NotaSport](https://solusport.com/notasport.html) : notation et organisation des compétitions. Pilotez le programme en direct, organisez la notation des juges et diffusez les résultats. Pour : organisateurs, juges et régie.
+- [EquipSport](https://solusport.com/equipsport.html) : tenues et équipements sportifs sur mesure. Créez des tenues aux couleurs du club et définissez des équipements sportifs sur mesure pour votre discipline. Pour : clubs, équipes et responsables matériel.
+
+## Statut
+
+SoluSport est un projet d’entreprise en cours de création. La disponibilité, les modalités et les prix des solutions sont précisés lors d’un premier échange. Le site ne permet ni commande ni paiement en ligne.
+
+## Contact
+
+- E-mail : contact@solusport.com
+- Téléphone : 07 56 82 21 12 (+33 7 56 82 21 12)
+- Adresse : 11 allée de Biscaye, 19240 Varetz, France
+- Formulaire : https://solusport.com/#contact
+
+## Pages utiles
+
+- [Accueil](https://solusport.com/)
+- [Le projet SoluSport](https://solusport.com/a-propos.html)
+- [Questions fréquentes](https://solusport.com/#questions)
+- [Mentions légales](https://solusport.com/mentions-legales.html)

@@ -1,6 +1,8 @@
 export const products = [
   {
     id: 'presensport',
+    searchTitle: 'PresenSport — Logiciel d’appel et de présences',
+    metaDescription: 'Logiciel d’appel pour clubs sportifs : présences en ligne ou hors ligne, motifs d’absence, statistiques d’assiduité et suivi des uniformes.',
     name: 'PresenSport',
     theme: 'Entraînement',
     subject: 'Présences et uniformes',
@@ -26,6 +28,8 @@ export const products = [
   },
   {
     id: 'gestionsport',
+    searchTitle: 'GestionSport — Logiciel de gestion de club sportif',
+    metaDescription: 'Gérez les adhésions, les cotisations et les inscriptions de votre association sportive, partagez l’agenda et sondez les familles.',
     name: 'GestionSport',
     theme: 'Vie associative',
     subject: 'Gestion et communication du club',
@@ -52,6 +56,8 @@ export const products = [
   },
   {
     id: 'notasport',
+    searchTitle: 'NotaSport — Logiciel de notation pour compétitions',
+    metaDescription: 'Organisez vos compétitions : notation des juges, programme en direct, affichages sur écran, votes et diffusion des résultats.',
     name: 'NotaSport',
     theme: 'Compétition',
     subject: 'Notation et organisation des compétitions',
@@ -78,6 +84,8 @@ export const products = [
   },
   {
     id: 'equipsport',
+    searchTitle: 'EquipSport — Tenues de club et équipements sur mesure',
+    metaDescription: 'Tenues personnalisées aux couleurs du club et équipements sportifs sur mesure, étudiés selon votre discipline, vos quantités et vos délais.',
     name: 'EquipSport',
     theme: 'Équipement',
     subject: 'Tenues et équipements sportifs sur mesure',

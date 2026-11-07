@@ -56,6 +56,26 @@ const mailer = await read('contact.php');
 assert.match(mailer, /const DESTINATAIRE = 'contact@solusport\.com';/);
 for (const product of products) assert.ok(mailer.includes("'" + product.name + "'"), 'contact.php doit accepter ' + product.name);
 assert.match(await read('.htaccess'), /ErrorDocument 404 \/404\.html/);
+const decode = text => text.replaceAll('&amp;', '&').replaceAll('&quot;', '"').replaceAll('&lt;', '<');
+for (const [name, html] of pages) {
+  if (html.includes('http-equiv="refresh"')) continue;
+  const title = decode(html.match(/<title>([^<]+)<\/title>/)[1]);
+  const description = decode(html.match(/<meta name="description" content="([^"]+)">/)[1]);
+  assert.ok(title.length <= 70, name + ' : titre trop long (' + title.length + ')');
+  assert.ok(description.length >= 50 && description.length <= 160, name + ' : description de ' + description.length + ' caractères');
+  const image = html.match(/<meta property="og:image" content="https:\/\/solusport\.com\/([^"]+)">/)[1];
+  await stat(new URL(image, root));
+  for (const [, block] of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    const data = JSON.parse(block);
+    assert.equal(data['@context'], 'https://schema.org');
+    assert.ok(data['@graph'].every(item => item['@type']), name + ' : bloc JSON-LD sans type');
+  }
+}
+assert.match(home, /"@type":"Organization"/);
+for (const product of products) assert.match(pages.get(product.id + '.html'), /"@type":"Service"/);
+const llms = await read('llms.txt');
+for (const product of products) assert.ok(llms.includes('https://solusport.com/' + product.id + '.html'), 'llms.txt doit citer ' + product.name);
+assert.match(sitemap, /<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/);
 assert.match(await read('robots.txt'), /https:\/\/solusport\.com\/sitemap\.xml/);
 const css = await read('assets/style.css');
 for (const [, asset] of css.matchAll(/url\(['"]?([^)'";]+)['"]?\)/g)) {
